@@ -37,4 +37,4 @@ contract Example {
     function get_description() external view returns (string memory) {
         return counter.description;
     }
-}
+} 
