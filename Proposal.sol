@@ -16,4 +16,8 @@ contract ProposalContract {
 
 
     mapping(uint256 => Proposal) proposal_history; // Recordings of previous proposals
+function createProposal(string calldata_title, string calldata_description, uint256_total_vote_to_end) external {
+counter +=1;
+proposal_history[counter] = Proposal(_title, _description 0,0,0, _total_vote_end, false, true
+}
 }
