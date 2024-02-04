@@ -17,3 +17,16 @@ function calculateCurrentState() private view returns(bool) {
         return false;
     }
 }
+
+/*
+function calculateCurrentState() private view returns (bool) {
+    Proposal storage proposal = proposal_history[counter];
+
+    // Check if the number of approve votes is greater than or equal to reject votes
+    if (proposal.approve >= proposal.reject) {
+        return true;
+    } else {
+        return false;
+    }
+}
+*/
