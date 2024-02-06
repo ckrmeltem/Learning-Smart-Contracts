@@ -2,48 +2,47 @@
 pragma solidity ^0.8.18;
 
 
-contract NewProposalContract {
-    uint256 private _storedData;
-    bool private _isActive;
-    address private _owner;
-    mapping(address => bool) private _hasVoted;
+contract ProposalContract {
+    struct Proposal {
+        string title;
+        string description;
+        uint256 voteCount;
+        bool isActive;
+    }
+
+    Proposal[] public proposals;
+    address public owner;
 
     modifier onlyOwner() {
-        require(msg.sender == _owner, "Only owner can call this function");
+        require(msg.sender == owner, "Only owner can call this function");
         _;
     }
-
-    modifier active() {
-        require(_isActive, "Contract is not active");
-        _;
-    }
-
 
     constructor() {
-        _owner = msg.sender;
-        _isActive = true;
+        owner = msg.sender;
     }
 
-    function get() public view returns (uint256) {
-        return _storedData;
+    function addProposal(string memory _title, string memory _description) public onlyOwner {
+        proposals.push(Proposal(_title, _description, 0, true));
     }
 
-    function set(uint256 newValue) public onlyOwner active {
-        _storedData = newValue;
+    function getProposalCount() public view returns (uint256) {
+        return proposals.length;
     }
 
-    function toggleActivation() public onlyOwner {
-        _isActive = !_isActive;
-    }
+    function vote(uint256 proposalIndex) public {
+        require(proposalIndex < proposals.length, "Invalid proposal index");
+        require(proposals[proposalIndex].isActive, "Proposal is not active");
 
-   
-
-    function setOwner(address newOwner) public onlyOwner {
-        require(newOwner != address(0), "Invalid new owner address");
-        _owner = newOwner;
+        proposals[proposalIndex].voteCount++;
     }
 
     function calculateCurrentState() public view returns (string memory) {
-        return _storedData > 10 ? "Over 10" : "Not over 10";
+        uint256 totalVotes = 0;
+        for (uint256 i = 0; i < proposals.length; i++) {
+            totalVotes += proposals[i].voteCount;
+        }
+
+        return totalVotes > 10 ? "Over 10 votes" : "Not over 10 votes";
     }
 }
