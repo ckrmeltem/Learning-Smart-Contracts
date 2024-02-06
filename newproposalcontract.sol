@@ -18,10 +18,6 @@ contract NewProposalContract {
         _;
     }
 
-    modifier newVoter() {
-        require(!_hasVoted[msg.sender], "You have already voted");
-        _;
-    }
 
     constructor() {
         _owner = msg.sender;
@@ -40,9 +36,7 @@ contract NewProposalContract {
         _isActive = !_isActive;
     }
 
-    function vote() public active newVoter {
-        _hasVoted[msg.sender] = true;
-    }
+   
 
     function setOwner(address newOwner) public onlyOwner {
         require(newOwner != address(0), "Invalid new owner address");
