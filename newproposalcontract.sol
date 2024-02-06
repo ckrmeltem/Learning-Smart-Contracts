@@ -29,6 +29,19 @@ contract ProposalContract {
         voted_addresses.push(msg.sender);
     }
 
+contract destructible is owned {
+    // Bu akıllı sözleşme türetildiği `owned` fonksiyonundaki
+    // `onlyOwner` modifier'ını `destroy` fonksiyonuna ekler.
+    // Böylece `destroy` fonksiyonunu sadece `owner` çağırabilir.
+    function destroy() public onlyOwner {
+        selfdestruct(owner);
+    }
+}
+
+
+
+
+
     modifier onlyOwner() {
         require(msg.sender == owner);
         _;
